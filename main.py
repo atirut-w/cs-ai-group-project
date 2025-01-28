@@ -1,10 +1,13 @@
 from module import Module
 from typing import Dict
 import sys
-
+from models.LinearRegression import LinearRegressionModel
 
 modules: Dict[str, Module] = {
     # Add modules here
+    'linear_regression': LinearRegressionModel(),
+    'multiple_linear_regression': None,
+    'polynomial_regression': None
 }
 
 
