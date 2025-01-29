@@ -1,27 +1,10 @@
-from typing import Optional, override
-from abc import abstractmethod
+from module import Module
+from typing import override
 from pandas import read_csv
 from numpy import array
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
-
-class Module:
-    def __init__(self):
-        # self.name: Optional[str] = None
-        self.description: Optional[str] = None
-
-    @abstractmethod
-    def prepare_dataset(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    def train_model(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    def evaluate_model(self):
-        raise NotImplementedError
 
 
 class LinearRegressionModel(Module):
