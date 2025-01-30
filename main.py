@@ -26,14 +26,3 @@ for module_name in modules:
     module.train_model()
     module.evaluate_model()
     
-sys.exit()
-
-module_name = sys.argv[1]
-if module_name not in modules:
-    print(f"Module {module_name} not found")
-    sys.exit(1)
-
-module = modules[module_name]
-module.prepare_dataset()
-module.train_model()
-module.evaluate_model()
