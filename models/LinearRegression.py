@@ -5,6 +5,7 @@ from numpy import array
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+from module import Module
 
 
 class LinearRegressionModel(Module):
@@ -29,12 +30,11 @@ class LinearRegressionModel(Module):
 
     @override
     def prepare_dataset(self) -> None:
-        self.df = read_csv("datasets/Employee_Salary_Dataset.csv")
-        self.x = array(self.df[["Experience_Years"]])
-        self.y = array(self.df[["Salary"]])
-        # print(self.x)
-        # print(self.y)
-
+        self.df = read_csv("datasets/Student Depression Dataset.csv")
+        self.x = array(self.df[["Academic Pressure", "Study Satisfaction"]])
+        self.y = array(self.df[["CGPA"]])
+        
+        
     @override
     def train_model(self) -> None:
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(
@@ -47,14 +47,10 @@ class LinearRegressionModel(Module):
     @override
     def evaluate_model(self) -> None:
         self.y_predic = self.model.predict(self.x_test)
-        print(f"R^2 = {r2_score(self.y_test, self.y_predic) * 100}")
+        print(f"R^2 = {r2_score(self.y_test, self.y_predic)}")
         print(f"Mean Square Error = {mean_squared_error(self.y_test, self.y_predic)}")
         print(
             f"Mean Absolute Error = {mean_absolute_error(self.y_test, self.y_predic)}"
         )
-
-
-# model = LinearRegressionModel()
-# model.prepare_dataset()
-# model.train_model()
-# model.evaluate_model()
+        
+    
