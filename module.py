@@ -1,10 +1,8 @@
 from typing import Optional
 from abc import abstractmethod
 
-
 class Module:
     def __init__(self):
-        # self.name: Optional[str] = None
         self.description: Optional[str] = None
 
     @abstractmethod
