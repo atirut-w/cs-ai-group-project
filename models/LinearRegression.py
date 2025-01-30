@@ -28,10 +28,10 @@ class LinearRegressionModel(Module):
         """
 
     @override
-    def prepare_dataset(self) -> None:
-        self.df = read_csv("datasets/Employee_Salary_Dataset.csv")
-        self.x = array(self.df[["Experience_Years"]])
-        self.y = array(self.df[["Salary"]])
+    def prepare_dataset(self,df) -> None:
+        self.df = df
+        self.x = array(self.df[["area"]])
+        self.y = array(self.df[["price"]])
         # print(self.x)
         # print(self.y)
 
