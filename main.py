@@ -2,14 +2,21 @@ from module import Module
 from typing import Dict
 import sys
 from models.LinearRegression import LinearRegressionModel
+from models.MultipleRegession import MultipleRegessionModel
+import pandas as pd
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.metrics import r2_score, mean_absolute_error
+from sklearn.preprocessing import StandardScaler
+
 
 modules: Dict[str, Module] = {
     # Add modules here
     "linear_regression": LinearRegressionModel(),
-    # 'multiple_linear_regression': None,
+    'multiple_linear_regression': MultipleRegessionModel(),
     # 'polynomial_regression': None
 }
-
 
 if len(sys.argv) == 1:
     print("Usage: python main.py <module_name>")
