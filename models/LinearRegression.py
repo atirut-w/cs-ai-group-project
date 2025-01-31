@@ -29,16 +29,10 @@ class LinearRegressionModel(Module):
             เป็น model ที่ใช้ในการทำนายราคาบ้าน 
             โดยให้ x เป็นคุณสมบัติของข้อมูล คือ พื้นที่ของบ้าน (Area)
             และ y ที่เป็น label คือ ราคาของบ้าน (Price)
-            เป็น model ที่ใช้ในการทำนายราคาบ้าน 
-            โดยให้ x เป็นคุณสมบัติของข้อมูล คือ พื้นที่ของบ้าน (Area)
-            และ y ที่เป็น label คือ ราคาของบ้าน (Price)
         """
 
     @override
     def prepare_dataset(self) -> None:
-        self.df = read_csv("datasets/Housing.csv")
-        self.x = array(self.df[["area"]])
-        self.y = array(self.df[["price"]])
         self.df = read_csv("datasets/Housing.csv")
         self.x = array(self.df[["area"]])
         self.y = array(self.df[["price"]])
@@ -60,11 +54,3 @@ class LinearRegressionModel(Module):
         print(f"R^2 = {score}%")
         print(f"Mean Square Error = {mean_squared_error(self.y_test, self.y_predicted)}")
         self.y_predicted = self.model.predict(self.x_test)
-
-        score = Helper.convert_to_100_percent(r2_score(self.y_test, self.y_predicted))
-        print(f"R^2 = {score}%")
-        print(f"Mean Square Error = {mean_squared_error(self.y_test, self.y_predicted)}")
-        print(
-            f"Mean Absolute Error = {mean_absolute_error(self.y_test, self.y_predicted)}"
-            f"Mean Absolute Error = {mean_absolute_error(self.y_test, self.y_predicted)}"
-        )
