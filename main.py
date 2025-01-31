@@ -5,7 +5,7 @@ from models.LinearRegression import LinearRegressionModel
 
 modules: Dict[str, Module] = {
     # Add modules here
-    'linear_regression': LinearRegressionModel(),
+    "linear_regression": LinearRegressionModel(),
     # 'multiple_linear_regression': None,
     # 'polynomial_regression': None
 }
@@ -16,7 +16,7 @@ if len(sys.argv) == 1:
     print("Available modules:")
     for name, module in modules.items():
         print(f"\t{name}: {module.description}")
-    # sys.exit()
+    sys.exit()
 
 # test
 for module_name in modules:
