@@ -27,8 +27,7 @@ modules: Dict[str, Module] = {
     # Add modules here
     "linear_regression": LinearRegressionModel(),
     'multiple_linear_regression': MultipleRegessionModel(),
-    'polynomial_regression': PolynomialRegressionModel()
-    'multiple_linear_regression': MultipleRegessionModel(),
+    'polynomial_regression': PolynomialRegressionModel(),
     'polynomial_regression': PolynomialRegressionModel()
 }
 
