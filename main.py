@@ -3,6 +3,8 @@ from typing import Dict
 import sys
 from models.LinearRegression import LinearRegressionModel
 from models.MultipleRegession import MultipleRegessionModel
+from models.PolynomialRegression import PolynomialRegressionModel
+
 import pandas as pd
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
@@ -15,7 +17,7 @@ modules: Dict[str, Module] = {
     # Add modules here
     "linear_regression": LinearRegressionModel(),
     'multiple_linear_regression': MultipleRegessionModel(),
-    # 'polynomial_regression': None
+    'polynomial_regression': PolynomialRegressionModel()
 }
 
 if len(sys.argv) == 1:
