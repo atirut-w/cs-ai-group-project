@@ -28,8 +28,6 @@ modules: Dict[str, Module] = {
     "linear_regression": LinearRegressionModel(),
     'multiple_linear_regression': MultipleRegessionModel(),
     'polynomial_regression': PolynomialRegressionModel()
-    'multiple_linear_regression': MultipleRegessionModel(),
-    'polynomial_regression': PolynomialRegressionModel()
 }
 
 if len(sys.argv) == 1:
