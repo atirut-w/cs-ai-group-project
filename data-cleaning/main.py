@@ -2,6 +2,7 @@ from pandas import read_csv, DataFrame, to_numeric
 from typing import Dict, List
 from math import trunc
 
+
 class DataCleaner:
     df: DataFrame | None = None
     data_path: str = "datasets/Housing.csv"
@@ -70,7 +71,7 @@ class DataCleaner:
         self.df.to_csv(self.result_path, index=False)
         print("สร้างไฟล์ data.csv สำเร็จ")
 
-    # method เช็คค่าว่างของทุก cell ใน dataframe
+    # method สำหรับเช็คค่าว่างของทุก cell ใน dataframe
     def check_empty_cell(self) -> None:
         # เก็บค่า booleans หากมีค่าเป็น true หมดแปลว่าใน dataframe ไม่มีค่าว่าง หากมีค่า false สักอันแปลว่า
         # มีค่าว่าง
@@ -101,13 +102,28 @@ class DataCleaner:
         else:
             print("ข้อมูลใน dataframe มีค่าว่าง แต่ทำการปรับปรุงแก้ไขข้อมูลที่เป็นค่าว่างแล้ว")
 
+    # method สำหรับเช็ค
     def check_wrong_format(self) -> None: ...
 
     def check_wrong_data(self) -> None: ...
 
+    # method สำหรับเช็คแถวว่ามีค่าซ้ำกันหรือไม่
     def check_duplicate_row(self) -> None:
-        ...
-        
+        self.set_error(True in self.df.duplicated())
+        # เช็คว่าถ้ามีค่า True ซึ่งเป็นค่าซ้ำในแถว
+        if self.get_error():
+            print("มีค่าซ้ำในแถวทำการลบค่าซ้ำออกจากใน dataframe")
+        else:
+            print("ไม่มีค่าซ้ำในแถว")
+
+# สร้าง instance สำหรับตัว cleaner
 cleaner = DataCleaner()
+
+# เรียกใช้ methods จาก instance เพื่อทำการ clean datset อันเก่า
 cleaner.check_empty_cell()
+cleaner.check_wrong_format()
+cleaner.check_wrong_data()
+cleaner.check_duplicate_row()
+
+# สร้างไฟล์ dataset อันใหม่เพื่อนำ dataset นี้ไปใช้ train model
 # cleaner.export_to_csv()
