@@ -1,4 +1,5 @@
 from pandas import read_csv, DataFrame, to_numeric
+import pandas as pd
 from typing import Dict, List
 from math import trunc
 
@@ -22,15 +23,15 @@ class DataCleaner:
         # print(self.df.head())
 
         # เก็บรายชื่อ columns ที่ค่าไม่ใช้ตัวเลข
-        column_names: List[str] = []
+        self.column_names: List[str] = []
         for column_name in self.df.columns:
             # เช็ค data type ของคอลัมน์ นั้นว่ามีค่าเป็น object หรือเปล่า
             if self.df[column_name].dtype == "object":
                 # เพิ่มเข้าใน list
-                column_names.append(column_name)
+                self.column_names.append(column_name)
 
         # แปลงค่าคอลัมน์ที่มีค่าเป็น object(string) แปลงไปเป็นตัวเลข 1 หรือ 0 เพื่อนำ df ไปใช้งาน
-        for column_name in column_names:
+        for column_name in self.column_names:
             # คอลัมน์ furnishingstatus ไม่ได้มีค่าเป็น yes, no ให้ใช้ dict อีกอัน
             if column_name == "furnishingstatus":
                 self.convert_str_to_num(
@@ -103,8 +104,11 @@ class DataCleaner:
         else:
             print("ข้อมูลใน dataframe มีค่าว่าง แต่ทำการปรับปรุงแก้ไขข้อมูลที่เป็นค่าว่างแล้ว")
 
-    # method สำหรับเช็คว่า ถ้าข้อมูล cell มีค่าผิดรูปแบบ
-    def check_wrong_format(self) -> None: ...
+    def check_wrong_format(self) -> None:
+        self.df[self.column_names] = self.df[self.column_names].map(lambda x:
+            pd.to_numeric(x))
+        print("เเปลงค่าเป็นตัวเลขเเล้ว")
+        print(self.df.info)
 
     # method สำหรับเช็คแถวว่ามีค่าซ้ำกันหรือไม่
     def check_duplicate_row(self) -> None:
