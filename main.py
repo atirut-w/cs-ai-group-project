@@ -16,7 +16,6 @@ if len(sys.argv) == 1:
     print("Available modules:")
     for name, module in modules.items():
         print(f"\t{name}: {module.description}")
-    sys.exit()
 
 # test
 for module_name in modules:
