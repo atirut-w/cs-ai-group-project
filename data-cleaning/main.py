@@ -105,9 +105,9 @@ class DataCleaner:
 
     def check_wrong_data(self) -> None: ...
 
-    def check_duplicate_row(self) -> None: ...
-
-
+    def check_duplicate_row(self) -> None:
+        ...
+        
 cleaner = DataCleaner()
 cleaner.check_empty_cell()
 # cleaner.export_to_csv()
