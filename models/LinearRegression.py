@@ -32,12 +32,6 @@ class LinearRegressionModel(Module):
         self.df = df
         self.x = array(self.df[["area"]])
         self.y = array(self.df[["price"]])
-    def prepare_dataset(self,df) -> None:
-        self.df = df
-        self.x = array(self.df[["area"]])
-        self.y = array(self.df[["price"]])
-        # print(self.x)
-        # print(self.y)
 
     @override
     def train_model(self) -> None:

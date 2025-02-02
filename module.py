@@ -6,7 +6,7 @@ class Module:
         self.description: Optional[str] = None
 
     @abstractmethod
-    def prepare_dataset(self):
+    def prepare_dataset(self, df):
         raise NotImplementedError
 
     @abstractmethod
