@@ -36,8 +36,7 @@ class LinearRegressionModel(Module):
     @override
     def train_model(self) -> None:
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(
-            self.x, self.y, test_size=0.2
-        )
+            self.x, self.y, test_size=0.2)
 
         self.model = LinearRegression()
         self.model.fit(self.x_train, self.y_train)
