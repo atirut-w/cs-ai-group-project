@@ -3,6 +3,7 @@ import pandas as pd
 from typing import Dict, List
 from math import trunc
 
+
 class DataCleaner:
     df: DataFrame | None = None
     data_path: str = "datasets/Housing.csv"
@@ -71,10 +72,9 @@ class DataCleaner:
         self.df.to_csv(self.result_path, index=False)
         print("สร้างไฟล์ data.csv สำเร็จ")
 
-    # method เช็คค่าว่างของทุก cell ใน dataframe
+    # method สำหรับเช็คค่าว่างของทุก cell ใน dataframe
     def check_empty_cell(self) -> None:
-        # เก็บค่า booleans หากมีค่าเป็น true หมดแปลว่าใน dataframe ไม่มีค่าว่าง หากมีค่า false สักอันแปลว่า
-        # มีค่าว่าง
+        # เก็บค่า booleans หากมีค่าเป็น true หมดแปลว่าใน dataframe ไม่มีค่าว่าง หากมีค่า false สักอันแปลว่า มีค่าว่าง
         bools: List[bool] = []
         # วน loop รับค่าชื่อ columns
         for column_name in self.df.columns:
@@ -88,7 +88,7 @@ class DataCleaner:
             if self.get_error():
                 print(f"คอลัมน์ {column_name} มีค่าว่างทำการแก้ไข")
                 # สร้างค่าเฉลี่ยของแต่ล่ะคอลัมน์แต่ตัดเลขทศนิยมออก หากมี cell ที่เป็นค่าว่างให้เอาค่าเฉลี่ยเข้าไปแทนที่ cell นั้น
-                mean = trunc(self.df[column_name].mean())
+                mean: int = trunc(self.df[column_name].mean())
                 self.df[column_name].fillna(mean, inplace=True)
                 bools.append(False)
                 # ขึ้นรอบใหม่ให้ค่า error เป็น False
@@ -97,7 +97,9 @@ class DataCleaner:
                 bools.append(True)
 
         # หากมีค่า True เท่ากับจำนวนคอลัมน์แปลว่า ไม่มีข้อมูล cell ไหนที่เป็นค่าว่าง
-        if bools.count(True) == len(self.df.columns):
+        self.set_error(bools.count(True) == len(self.df.columns))
+
+        if self.get_error():
             print("ข้อมูลใน dataframe ไม่มีค่าว่าง")
         else:
             print("ข้อมูลใน dataframe มีค่าว่าง แต่ทำการปรับปรุงแก้ไขข้อมูลที่เป็นค่าว่างแล้ว")
@@ -108,12 +110,23 @@ class DataCleaner:
         print("เเปลงค่าเป็นตัวเลขเเล้ว")
         print(self.df.info)
 
-    def check_wrong_data(self) -> None: ...
-
+    # method สำหรับเช็คแถวว่ามีค่าซ้ำกันหรือไม่
     def check_duplicate_row(self) -> None:
-        ...
-        
+        self.set_error(True in self.df.duplicated())
+        # เช็คว่าถ้ามีค่า True ซึ่งเป็นค่าซ้ำในแถว
+        if self.get_error():
+            print("มีค่าซ้ำในแถวทำการลบค่าซ้ำออกจากใน dataframe")
+        else:
+            print("ไม่มีค่าซ้ำในแถว")
+
+
+# สร้าง instance สำหรับตัว cleaner
 cleaner = DataCleaner()
+
+# เรียกใช้ methods จาก instance เพื่อทำการ clean datset อันเก่า
 cleaner.check_empty_cell()
 cleaner.check_wrong_format()
-# cleaner.export_to_csv()
+cleaner.check_duplicate_row()
+
+# สร้างไฟล์ dataset อันใหม่เพื่อนำ dataset นี้ไปใช้ train model
+cleaner.export_to_csv()
