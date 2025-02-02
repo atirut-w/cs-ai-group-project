@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
-
+from utils.Helper import Helper
 
 class PolynomialRegressionModel(Module):
     x = None
@@ -29,15 +29,13 @@ class PolynomialRegressionModel(Module):
         """
 
     @override
-    def prepare_dataset(self,df) -> None:
-        self.df = df
+    def prepare_dataset(self) -> None:
+        self.df = read_csv('datasets/data.csv')
         cols = ['area','bedrooms','bathrooms','stories']
         X = self.df[cols].values
-        print(X.shape)
+
         self.x = array(X)
         self.y = array(self.df['price'])
-        # print(self.x)
-        # print(self.y)
 
     @override
     def train_model(self) -> None:
@@ -58,14 +56,8 @@ class PolynomialRegressionModel(Module):
     @override
     def evaluate_model(self) -> None:
         self.y_predic = self.model2.predict(self.x_test_poly)
-        print(f"R^2 = {r2_score(self.y_test, self.y_predic) * 100}")
+        print(f"R^2 = {Helper.convert_to_100_percent(r2_score(self.y_test, self.y_predic))}%")
         print(f"Mean Square Error = {mean_squared_error(self.y_test, self.y_predic)}")
         print(
             f"Mean Absolute Error = {mean_absolute_error(self.y_test, self.y_predic)}"
         )
-
-
-# model = LinearRegressionModel()
-# model.prepare_dataset()
-# model.train_model()
-# model.evaluate_model()
