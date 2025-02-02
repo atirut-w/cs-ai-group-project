@@ -1,4 +1,3 @@
-
 from module import Module
 from typing import override
 from pandas import read_csv
@@ -6,8 +5,7 @@ from numpy import array
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
-
-
+from utils.Helper import Helper
 
 class MultipleRegessionModel(Module):
     x = None
@@ -22,8 +20,6 @@ class MultipleRegessionModel(Module):
     
     def __init__(self):
         super().__init__()
-        
-        
         self.description = """
             ตัว model นี้ใช้เป็น multiple linear 
             เป็น model ที่ใช้ในการทำนายเงินเดือนค่าจ้างของพนักงาน 
@@ -31,22 +27,21 @@ class MultipleRegessionModel(Module):
             และ y ที่เป็น label คือ เงินเดือน (Salary)
         """
     @override
-    def prepare_dataset(self,df):
-        self.df = df
+    def prepare_dataset(self):
+        self.df = read_csv('datasets/data.csv')
         cols = ['area','bedrooms','bathrooms','stories','parking','mainroad'
                     ,'guestroom','hotwaterheating','airconditioning'
                     ,'prefarea']
-        X = self.df[cols].values
-        y = self.df['price'].values
+        self.x = self.df[cols].values
+        self.y = self.df['price'].values
         
-        self.X = array(X)
-        self.y = array(y)
+        self.x = array(self.x)
+        self.y = array(self.y)
         
-    
     @override
     def train_model(self) -> None:
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(
-            self.X, self.y, test_size=0.2
+            self.x, self.y, test_size=0.2
         )
 
         self.model = LinearRegression()
@@ -55,9 +50,8 @@ class MultipleRegessionModel(Module):
     @override
     def evaluate_model(self) -> None:
         self.y_predic = self.model.predict(self.x_test)
-        print(f"R^2 = {r2_score(self.y_test, self.y_predic) * 100}")
+        print(f"R^2 = {Helper.convert_to_100_percent(r2_score(self.y_test, self.y_predic))}%")
         print(f"Mean Square Error = {mean_squared_error(self.y_test, self.y_predic)}")
         print(
             f"Mean Absolute Error = {mean_absolute_error(self.y_test, self.y_predic)}"
         )
-
