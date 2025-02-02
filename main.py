@@ -31,20 +31,8 @@ if module_name not in modules:
     print(f"Module {module_name} not found")
     sys.exit(1)
 
-#load dataset
-df = pd.read_csv('datasets/Housing.csv')
-df['mainroad'] = df['mainroad'].map({'yes': 1, 'no': 0})
-df['guestroom'] = df['guestroom'].map({'yes': 1, 'no': 0})
-df['basement'] = df['basement'].map({'yes': 1, 'no': 0})
-df['hotwaterheating'] = df['hotwaterheating'].map({'yes': 1, 'no': 0})
-df['airconditioning'] = df['airconditioning'].map({'yes': 1, 'no': 0})
-df['perfarea'] = df['prefarea'].map({'yes': 1, 'no': 0})
-df['furnishingstatus'] = df['furnishingstatus'].map({'furnished': 3, 'semi-furnished': 2, 'unfurnished': 1})
-
-scaler = StandardScaler()
-cols_to_norm = ['price','area', 'bedrooms', 'bathrooms', 'stories', 'parking','mainroad','guestroom','basement','hotwaterheating','airconditioning','perfarea','furnishingstatus']
-scaled_data = scaler.fit(df[cols_to_norm])
-df[cols_to_norm] = scaled_data.transform(df[cols_to_norm])
+# #load dataset
+df = pd.read_csv('datasets/data.csv')
 
 
 module = modules[module_name]

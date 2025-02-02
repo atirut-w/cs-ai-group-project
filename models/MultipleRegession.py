@@ -35,7 +35,7 @@ class MultipleRegessionModel(Module):
         self.df = df
         cols = ['area','bedrooms','bathrooms','stories','parking','mainroad'
                     ,'guestroom','hotwaterheating','airconditioning'
-                    ,'perfarea']
+                    ,'prefarea']
         X = self.df[cols].values
         y = self.df['price'].values
         
