@@ -2,7 +2,7 @@
 งานโปรเจคที่ 1 ของวิชา Fundamentals of Artificial Intelligence
 
 ### รายระเอียดโปรเจค
-สร้าง regression models สำหรับการสร้าง AI model สำหรบการทำนายราคาของบ้านในตลาดอสังหาริมทรัพย์
+สร้าง regression models สำหรับการสร้าง AI model สำหรับการทำนายราคาของบ้านในตลาดอสังหาริมทรัพย์
 
 dataset ที่ใช้: [Housing Price Prediction](https://www.kaggle.com/datasets/harishkumardatalab/housing-price-prediction/data)
 
