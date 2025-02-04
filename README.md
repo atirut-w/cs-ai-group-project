@@ -21,9 +21,16 @@ dataset ที่ใช้: [Housing Price Prediction](https://www.kaggle.com/da
 - Prefarea: บ้านอยู่ในพื้นที่ต้องการ
 - Furnishing status: สถานะการตกแต่งในบ้าน
 
+โดยเลือกใช้ regression models ทั้งหมด 4 ตัวได้แก่
+
+- linear regression
+- multiple linear regression
+- polynomial regreesion
+- decision tree regression
+
 ---
 
-### ขั้นตอนการตัว models ไปพัฒนาต่อ
+### ขั้นตอนการนำตัว models ไปพัฒนาต่อ
 
 1. clone ตัวโปรเจค
 ```
@@ -45,14 +52,19 @@ py -m venv env
 env/Scripts/activate
 ```
 
-5. ติดตั้ง liaries
+5. ติดตั้ง libraries
 ```
 pip install -r requirements.txt
 ```
 
-6. รันตัว regression models
+6. รัน model
 ```
-py main.py
+py main.py <ชื่อ model ที่จะรัน>
+```
+
+7. รันทุก models
+```
+py main.py -a
 ```
 
 ---
