@@ -6,7 +6,7 @@ from pandas import DataFrame
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from utils.Helper import Helper
-
+from utils.typing.type import Float
 
 # class Module เป็น abstract class ทุก models ที่สร้างขึ้นมาจะต้องสืบทอด super class ตัวนี้นำไปใช้งาน
 class Module(ABC):
@@ -39,6 +39,8 @@ class Module(ABC):
         "furnishingstatus",
     )
     LABEL: str = "price"
+    accuracy_value: Optional[Union[Float, ndarray]] = None
+    error_value: Optional[Union[Float, ndarray]] = None
 
     # constructor ของ superclass เมื่อ subclass สืบทอด superclass แล้วต้องส่งค่า arg เข้ามาด้วย
     def __init__(
@@ -66,3 +68,17 @@ class Module(ABC):
     @abstractmethod
     def evaluate_model(self):
         raise NotImplementedError
+
+    # methods ของ getters
+    def get_accuracy_value(self) -> Optional[Union[Float, ndarray]]:
+        return self.accuracy_value
+    
+    def get_error_value(self) -> Optional[Union[Float, ndarray]]:
+        return self.error_value
+    
+    # methods ของ setters
+    def set_accuracy_value(self, acc_val: Union[Float, ndarray]) -> None:
+        self.accuracy_value = acc_val
+        
+    def set_error_value(self, err_val: Union[Float, ndarray]) -> None:
+        self.error_value = err_val

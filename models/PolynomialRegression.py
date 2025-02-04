@@ -1,11 +1,11 @@
 from module import Module
-from typing import override, List, Optional, Union
+from typing import override, Optional, Union
 from pandas import read_csv
 from numpy import array, ndarray
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+from sklearn.metrics import r2_score, mean_squared_error
 from scipy.sparse._matrix import spmatrix
 from utils.Helper import Helper
 
@@ -55,8 +55,8 @@ class PolynomialRegressionModel(Module):
 
     @override
     def evaluate_model(self) -> None:
-        print(
-            f"R^2 = {Helper.convert_to_100_percent(r2_score(self.y_test, self.y_pred))}%"
-        )
-        print(f"Mean Square Error = {mean_squared_error(self.y_test, self.y_pred)}")
-        print(f"Mean Absolute Error = {mean_absolute_error(self.y_test, self.y_pred)}")
+        self.set_accuracy_value(r2_score(self.y_test, self.y_pred))
+        self.set_error_value(mean_squared_error(self.y_test, self.y_pred))
+
+        print(f"R-squared = {Helper.convert_to_100_percent(self.get_accuracy_value())}%")
+        print(f"Mean Squared Error = {self.get_error_value()}")
