@@ -1,14 +1,15 @@
 from pandas import read_csv, DataFrame, to_numeric
 import pandas as pd
-from typing import Dict, List
+from typing import Dict, List, Optional
 from math import trunc
+from utils.Helper import Helper
 
 
+# DataCleaner เป็น class ที่ทำหน้าที่ในการ clean ข้อมูลใน dataset ก่อนนำข้อมูลไปใช้งาน
 class DataCleaner:
-    df: DataFrame | None = None
-    data_path: str = "datasets/Housing.csv"
-    result_path: str = "datasets/data.csv"
+    df: Optional[DataFrame] = None
     is_error: bool = False
+    column_names: List[str] = []
     dict_of_yes_no: Dict[str, int] = {"yes": 1, "no": 0}
     dict_of_furnishingstatus: Dict[str, int] = {
         "unfurnished": 0,
@@ -18,12 +19,9 @@ class DataCleaner:
 
     def __init__(self) -> None:
         # อ่านค่า csv แล้วเก็บค่าลง attribute dataframe
-        self.df = read_csv(self.data_path)
-        # print(self.df.describe())
-        # print(self.df.head())
+        self.df = read_csv("datasets/Housing.csv")
 
         # เก็บรายชื่อ columns ที่ค่าไม่ใช้ตัวเลข
-        self.column_names: List[str] = []
         for column_name in self.df.columns:
             # เช็ค data type ของคอลัมน์ นั้นว่ามีค่าเป็น object หรือเปล่า
             if self.df[column_name].dtype == "object":
@@ -51,7 +49,7 @@ class DataCleaner:
         self.is_error = val
 
     # method สำหรับคืนค่า dataframe ที่ทำงานอยู่ใน class นี้
-    def get_df(self) -> DataFrame:
+    def get_df(self) -> Optional[DataFrame]:
         return self.df
 
     # method สำหรับแปลงค่า string เป็นเลข
@@ -69,7 +67,7 @@ class DataCleaner:
 
     # method สำหรับสร้างไฟล์ csv หลังจากทำ cleaning เสร็จเรียบร้อยแล้ว
     def export_to_csv(self) -> None:
-        self.df.to_csv(self.result_path, index=False)
+        self.df.to_csv(Helper.get_data_path(), index=False)
         print("สร้างไฟล์ data.csv สำเร็จ")
 
     # method สำหรับเช็คค่าว่างของทุก cell ใน dataframe
@@ -104,29 +102,22 @@ class DataCleaner:
         else:
             print("ข้อมูลใน dataframe มีค่าว่าง แต่ทำการปรับปรุงแก้ไขข้อมูลที่เป็นค่าว่างแล้ว")
 
+    # method สำหรับแก้ไขรูปแบบของชนิดข้อมูล
     def check_wrong_format(self) -> None:
-        self.df[self.column_names] = self.df[self.column_names].map(lambda x:
-            pd.to_numeric(x))
-        print("เเปลงค่าเป็นตัวเลขเเล้ว")
-        print(self.df.info)
+        if len(self.column_names) >= 1:
+            self.df[self.column_names] = self.df[self.column_names].map(
+                lambda x: pd.to_numeric(x)
+            )
+            print("เเปลงค่าเป็นตัวเลขเเล้ว")
+        else:
+            print("ชนิดของข้อมูลแต่ละคอลัมน์ถูกต้องแล้ว")
 
     # method สำหรับเช็คแถวว่ามีค่าซ้ำกันหรือไม่
     def check_duplicate_row(self) -> None:
         self.set_error(True in self.df.duplicated())
         # เช็คว่าถ้ามีค่า True ซึ่งเป็นค่าซ้ำในแถว
         if self.get_error():
+            self.df.drop_duplicates(inplace=True)
             print("มีค่าซ้ำในแถวทำการลบค่าซ้ำออกจากใน dataframe")
         else:
             print("ไม่มีค่าซ้ำในแถว")
-
-
-# สร้าง instance สำหรับตัว cleaner
-cleaner = DataCleaner()
-
-# เรียกใช้ methods จาก instance เพื่อทำการ clean datset อันเก่า
-cleaner.check_empty_cell()
-cleaner.check_wrong_format()
-cleaner.check_duplicate_row()
-
-# สร้างไฟล์ dataset อันใหม่เพื่อนำ dataset นี้ไปใช้ train model
-cleaner.export_to_csv()
