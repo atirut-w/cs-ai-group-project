@@ -1,8 +1,9 @@
 from seaborn import heatmap
-from pandas import read_csv
+from seaborn.colors.crayons import crayons
+from pandas import read_csv, DataFrame
 import matplotlib.pyplot as plt
 
-data = read_csv("datasets/data.csv")
+data: DataFrame = read_csv("datasets/data.csv")
 
-heatmap(data.corr(), annot=True)
+heatmap(data.corr(), annot=True, linecolor=crayons["Black"], linewidths=2, cbar=True)
 plt.show()

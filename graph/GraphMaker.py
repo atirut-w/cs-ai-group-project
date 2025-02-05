@@ -9,9 +9,11 @@ class GraphMaker:
     accuracy_values: Optional[Union[List[Float], List[ndarray]]] = None
     # ใช้ค่า error เป็น mean square error
     error_values: Optional[Union[List[Float], List[ndarray]]] = None
-    xlabel: str = "Accuracy values"
-    ylabel: str = "Error values"
-    title: str = "Accuracy values VS Error values"
+    xlabel: str = "Regression Models"
+    ylabel: str = "R Square"
+    ylabel2: str = "Mean Square Error"
+    title: str = "R Square VS Mean Square Error"
+    model_names: List[str] = ['Linear', 'Multiple Linear', 'Polynomial', 'Decision Tree']
 
     def __init__(
         self,
@@ -21,13 +23,20 @@ class GraphMaker:
         self.set_accuracy_values(acc_vals)
         self.set_error_values(err_vals)
 
-    def create_graph(self) -> None:
-        plt.plot(self.accuracy_values, self.error_values)
-        plt.title(self.title)
+    def create_accuracy_graph(self) -> None:        
+        plt.plot(self.model_names, self.accuracy_values)
+        plt.title("Compare the R Square values o​f each model")
         plt.xlabel(self.xlabel)
         plt.ylabel(self.ylabel)
         plt.show()
 
+    def create_error_graph(self) -> None:        
+        plt.plot(self.model_names, self.error_values)
+        plt.title("Compare the Mean Square Error values ​​of each model")
+        plt.xlabel(self.xlabel)
+        plt.ylabel(self.ylabel2)
+        plt.show()
+        
     def get_accuracy_values(self) -> Optional[Union[List[Float], List[ndarray]]]:
         return self.accuracy_values
 

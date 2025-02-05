@@ -26,4 +26,5 @@ for model in models:
     err_vals.append(model.get_error_value())
     
 maker: GraphMaker = GraphMaker(acc_vals, err_vals)
-maker.create_graph()
+maker.create_accuracy_graph()
+maker.create_error_graph()
