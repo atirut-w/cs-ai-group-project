@@ -1,6 +1,7 @@
 from pandas import read_csv, DataFrame, to_numeric
 import pandas as pd
 from typing import Dict, List, Optional
+from sklearn.preprocessing import MinMaxScaler
 from math import trunc
 from utils.Helper import Helper
 
@@ -8,6 +9,7 @@ from utils.Helper import Helper
 # DataCleaner เป็น class ที่ทำหน้าที่ในการ clean ข้อมูลใน dataset ก่อนนำข้อมูลไปใช้งาน
 class DataCleaner:
     df: Optional[DataFrame] = None
+    scaler: MinMaxScaler = MinMaxScaler()
     is_error: bool = False
     column_names: List[str] = []
     dict_of_yes_no: Dict[str, int] = {"yes": 1, "no": 0}
@@ -65,10 +67,11 @@ class DataCleaner:
         # แปลงชนิดข้อมูลจาก object เป็น int
         self.df[column] = to_numeric(self.df[column])
 
-    # method สำหรับสร้างไฟล์ csv หลังจากทำ cleaning เสร็จเรียบร้อยแล้ว
-    def export_to_csv(self) -> None:
-        self.df.to_csv(Helper.get_data_path(), index=False)
-        print("สร้างไฟล์ data.csv สำเร็จ")
+    # method สำหรับการ normalize ข้อมูลให้ข้อมูลอยู่ในช่วง scale เดียวกัน
+    def normalized(self) -> None:
+        self.df = DataFrame(
+            self.scaler.fit_transform(self.df), columns=self.df.columns, dtype="float16"
+        )
 
     # method สำหรับเช็คค่าว่างของทุก cell ใน dataframe
     def check_empty_cell(self) -> None:
@@ -121,3 +124,8 @@ class DataCleaner:
             print("มีค่าซ้ำในแถวทำการลบค่าซ้ำออกจากใน dataframe")
         else:
             print("ไม่มีค่าซ้ำในแถว")
+
+    # method สำหรับสร้างไฟล์ csv หลังจากทำ cleaning เสร็จเรียบร้อยแล้ว
+    def export_to_csv(self) -> None:
+        self.df.to_csv(Helper.get_data_path(), index=False)
+        print("สร้างไฟล์ data.csv สำเร็จ")

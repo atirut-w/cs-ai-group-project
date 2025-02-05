@@ -18,9 +18,10 @@ if not dataset_file.is_file():
     cleaner.check_empty_cell()
     cleaner.check_duplicate_row()
     cleaner.check_wrong_format()
+    cleaner.normalized()
     # สร้างไฟล์ dataset อันใหม่เพื่อนำ dataset นี้ไปใช้ train model
     cleaner.export_to_csv()
-    
+
 # สร้าง modules ในการเก็บ regression models ของแต่ละ module
 modules: Dict[str, Module] = {
     'linear_regression': LinearRegressionModel(),
